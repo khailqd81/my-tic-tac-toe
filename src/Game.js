@@ -54,7 +54,7 @@ function calculateWinner(squares, index, boardSize) {
                 for (let j = 0; j < boardSize; j++) {
                     indexSquareWinLine.push((boardSize + 1) * j)
                 }
-                return indexSquareWinLine
+                return indexSquareWinLine;
             }
         }
 
@@ -148,7 +148,7 @@ function Game() {
     }
     const theHistory = history;
     const current = theHistory[stepNumber];
-    const winner = calculateWinner(current.squares, recentCell, boardSize);
+    const winSquares = calculateWinner(current.squares, recentCell, boardSize);
     const drawMatch = checkDraw(stepNumber, boardSize);
 
     const moves = theHistory.map((step, move) => {
@@ -171,10 +171,8 @@ function Game() {
     });
 
     let status;
-    let winSquares;
-    if (winner) {
-        status = "Winner: " + winner;
-        winSquares = winner;
+    if (winSquares) {
+        status = "Winner: " + current.squares[recentCell];
         console.log(winSquares)
     } else if (drawMatch) {
         status = "Draw";
