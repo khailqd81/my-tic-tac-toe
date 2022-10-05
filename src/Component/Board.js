@@ -1,5 +1,5 @@
 import Square from "./Square";
-function Board(props) {
+function Board({squares, onClick, winSquares, boardSize }) {
 
     const checkInSquares = (index, squares) => {
         for (const value of squares) {
@@ -7,31 +7,31 @@ function Board(props) {
                 return true;
             }
         }
-         
         return false;
     }
 
-    const renderSquare = (i, isBold) => {
+    const renderSquare = (i, isHighlighted, winSquares) => {
         return (
             <Square
                 key={i}
-                isBold={isBold}
-                value={props.squares[i]}
-                onClick={() => props.onClick(i)}
+                isHighlighted={isHighlighted}
+                value={squares[i]}
+                hasWinner={winSquares ? true : false}
+                onClick={() => onClick(i)}
             />
         );
     }
-    const createBoard = () => {
+    const createBoard = (boardSize) => {
         let result = [];
-        for (var i = 0; i < 5; i++) {
+        for (var i = 0; i < boardSize; i++) {
             let boardRow = [];
-            for (var j = 0; j < 5; j++) {
-                const indexSquare = j + 5 * i;
-                let isBold = false;
-                if (props.winSquares) {
-                    isBold = checkInSquares(indexSquare, props.winSquares);
+            for (var j = 0; j < boardSize; j++) {
+                const indexSquare = j + boardSize * i;
+                let isHighlighted = false;
+                if (winSquares) {
+                    isHighlighted = checkInSquares(indexSquare, winSquares);
                 }
-                boardRow.push(renderSquare(j + 5 * i, isBold));
+                boardRow.push(renderSquare(j + boardSize * i, isHighlighted, winSquares));
             }
             result.push(<div className="board-row" key={i*100}>{boardRow}</div>)
         }
@@ -40,7 +40,7 @@ function Board(props) {
     }
     return (
         <div>
-            {createBoard()}
+            {createBoard(boardSize)}
         </div>
     );
 
